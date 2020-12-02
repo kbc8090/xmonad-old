@@ -1,0 +1,43 @@
+-- Thanks to krive001 to share the code of xmobar
+-- https://github.com/krive001/xmonad-xmobar
+
+Config {
+    font = "xft:JetBrains Mono:size=10:style=Bold:antialias=true:autohint=true",
+    additionalFonts = ["xft:Noto Sans:size=10:style=Bold","xft:FontAwesome:style=Regular:size=11"]
+--   , bgColor          = "#2F343F"
+   , bgColor          = "#1b1e2b"   
+   , fgColor          = "white"
+   , position         = TopSize C 100 22
+   , textOffset       = -1
+   , iconOffset       = -8
+   , alpha            = 255
+   , border           = BottomB
+   , borderWidth      = 1
+   , borderColor      = "#000000"
+   , lowerOnStart     = True
+   , hideOnStart      = False
+   , allDesktops      = True
+   , overrideRedirect = True
+   , pickBroadest     = True
+   , persistent       = True
+--   , iconRoot         = "/home/kbc/.xmonad/xpm/"  -- default: "."
+   , sepChar          = "%"
+   , alignSep         = "}{"
+   , template         = " <fc=white><action=button=4><action=button=5>%UnsafeStdinReader%</action></action></fc>}{<fc=white> %update%</fc><fc=#c792ea>|</fc> %memory% <fc=#c792ea>|</fc> %KGNV% <fc=#c792ea>|</fc> <action=`pavucontrol` button=3><action=`XMMute` button=1><action=button=4><action=button=5>%XVol%</action></action></action></action><action=`gsimplecal` button=1><fc=#c792ea>|</fc> <fc=#83aaff><fn=2></fn></fc> %date% </action>%trayerpad%"
+   , commands         = [ 
+		Run Memory [ "--template" ,"<fc=#82AAFF><fn=2> </fn></fc><fc=white></fc> <used>/<total>Mb"] 10
+
+      , Run Weather "KGNV" ["-t","<fc=#82aaff><fn=2></fn></fc> <skyCondition> <tempF>F","-L","64","-H","77","--normal","green","--high","red","--low","lightblue"] 36000
+
+      , Run Com "/bin/bash" ["-c", "XMgetvolume"]  "XVol" 10
+
+	  , Run Com "/home/kbc/.xmonad/scripts/trayer-padding.sh" [] "trayerpad" 20
+
+      , Run UnsafeStdinReader
+
+	  , Run Com "/bin/bash" ["-c",  "XMKupdate"] "update" 600
+
+      , Run Date "%a, %B %d %l:%M%p" "date" 60
+    ]
+
+}
